@@ -1,0 +1,26 @@
+{
+  "image_tags": ["factory_floor", "camera_01"],
+  "annotation_type": "detection",
+  "labels": [
+    {"id": 1, "name": "person"},
+    {"id": 2, "name": "car"},
+    {"id": 3, "name": "helmet"}
+  ],
+  "annotations": [
+    {
+      "tags": ["occluded", "low_light"],
+      "label_id": 1,
+      "box": [200, 150, 320, 450]
+    },
+    {
+      "tags": ["truncated"],
+      "label_id": 2,
+      "box": [500, 300, 700, 400]
+    },
+    {
+      "tags": [],
+      "label_id": 3,
+      "box": [210, 140, 270, 170]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "description": "del_flag=1时generate_tag被忽略，只删图不打tag",
+  "type": "data_process",
+  "task_config": {
+    "data_path_list": [
+      "D:/your_data/path1",
+      "D:/your_data/path2"
+    ],
+    "params": {
+      "cache_flag": "cal_no_cache",
+      "cache_folder_path": "",
+      "del_flag": 1,
+      "generate_tag": 1,
+      "parent_annotation_version": "v1",
+      "annotation_name": "dedup_v1",
+      "tag_name": "duplicate",
+      "dup_method": "pixel_max_diff",
+      "dup_param": "20"
+    }
+  },
+  "script": "dedup_images.py"
+}

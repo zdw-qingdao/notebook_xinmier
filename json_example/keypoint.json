@@ -1,0 +1,43 @@
+{
+  "image_tags": ["pose_estimation", "outdoor"],
+  "annotation_type": "keypoint",
+  "labels": [
+    {
+      "id": 1,
+      "name": "person",
+      "keypoint_names": ["nose", "left_eye", "right_eye", "left_shoulder", "right_shoulder", "left_elbow", "right_elbow", "left_wrist", "right_wrist"]
+    }
+  ],
+  "annotations": [
+    {
+      "tags": ["standing"],
+      "label_id": 1,
+      "keypoints": [
+        [310, 85, 2],
+        [305, 78, 2],
+        [318, 78, 2],
+        [280, 150, 2],
+        [340, 150, 2],
+        [260, 230, 2],
+        [360, 225, 1],
+        [250, 300, 2],
+        [370, 295, 0]
+      ]
+    },
+    {
+      "tags": ["sitting", "occluded"],
+      "label_id": 1,
+      "keypoints": [
+        [600, 200, 2],
+        [595, 193, 2],
+        [608, 193, 2],
+        [575, 270, 2],
+        [625, 270, 2],
+        [560, 340, 1],
+        [640, 335, 0],
+        [555, 400, 0],
+        [0, 0, 0]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(cat ~/.ssh/config 2>/dev/null || echo \"FILE_NOT_FOUND\")",
+      "Read(//Users/abc/.ssh/**)",
+      "Read(//Users/abc/**)",
+      "Bash(ps -p 860 -o pid,ppid,user,%cpu,%mem,rss,etime,command)",
+      "Bash(ps -p 860 -o command=)",
+      "Bash(ps -p 69590 -o command=)"
+    ],
+    "additionalDirectories": [
+      "/Users/abc"
+    ]
+  }
+}

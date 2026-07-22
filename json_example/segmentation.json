@@ -1,0 +1,26 @@
+{
+  "image_tags": ["street_view", "daytime"],
+  "annotation_type": "segmentation",
+  "labels": [
+    {"id": 1, "name": "road"},
+    {"id": 2, "name": "sidewalk"},
+    {"id": 3, "name": "building"}
+  ],
+  "annotations": [
+    {
+      "tags": ["main_road"],
+      "label_id": 1,
+      "polygon": [[0, 500], [400, 350], [800, 350], [1200, 500], [1200, 720], [0, 720]]
+    },
+    {
+      "tags": [],
+      "label_id": 2,
+      "polygon": [[0, 480], [400, 330], [800, 330], [800, 350], [400, 350], [0, 500]]
+    },
+    {
+      "tags": ["partial"],
+      "label_id": 3,
+      "polygon": [[0, 100], [300, 80], [300, 330], [0, 480]]
+    }
+  ]
+}

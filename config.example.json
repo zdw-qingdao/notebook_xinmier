@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "工厂1",
+    "type": "human_detection",
+    "device": "",
+    "start_date": "2025-10-01",
+    "end_date": "2025-10-01",
+    "status": "进行中",
+    "notes": "人体检测项目",
+    "doc_link": ""
+  },
+  "meta": [
+    {
+      "station": "工位A",
+      "version": 0,
+      "collection_meta": {
+        "location": "工位A",
+        "date": "2026-06-01",
+        "device": "",
+        "resolution": "1920x1080",
+        "count": 3500,
+        "collector": "",
+        "notes": "夜班场景，光线较暗"
+      },
+      "video_frame_extraction": {
+        "source": "视频抽帧",
+        "fps": 2,
+        "deduplicate": true,
+        "notes": "按 2fps 抽帧后人工去重"
+      },
+      "sources": {
+        "videos": [
+          {
+            "path": "/absolute/path/to/input/videos",
+            "recursive": false
+          }
+        ],
+        "images": [
+          {
+            "path": "/absolute/path/to/input/images_batch",
+            "treat_children_as_groups": true
+          }
+        ],
+        "annotations": [
+          {
+            "version_name": "det_sam3_0",
+            "label_descriptions": {
+              "person": "人体目标，采用检测框标注"
+            },
+            "meta": {
+              "type": "detection",
+              "method": "sam3",
+              "used_model": "sam3-large",
+              "parent": "",
+              "classes": [
+                "person"
+              ],
+              "annotated_count": 3500,
+              "reviewed": false,
+              "reviewer": "",
+              "difficulty_type": "",
+              "notes": "SAM3 自动标注首版"
+            },
+            "labels": [
+              {
+                "path": "/absolute/path/to/input/labels_batch",
+                "treat_children_as_groups": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
