@@ -1,8 +1,6 @@
 
 yixuanxumxhaiyux
 
-claude api:
-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
 
 zenmux zdw account:
   claude 
@@ -63,17 +61,6 @@ ngc api key:
 0c0f4d9d-6521-4e10-a135-db9e87a7f03b
 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
 
-
-# Edit ~/.zshrc or ~/.bashrc
-export ANTHROPIC_BASE_URL="https://zenmux.ai/api/anthropic"
-export ANTHROPIC_AUTH_TOKEN=sk-ss-v1-8cd5904eb0073f336d420168d5d8e82a0383e9fb8f23bf76be4622fb24d3d300
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1" 
-export API_TIMEOUT_MS="30000000"
-export ANTHROPIC_API_KEY=""
-
-export ANTHROPIC_DEFAULT_HAIKU_MODEL="claude-haiku-4-8" 
-export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-sonnet-4-8"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-8"
 
 
 腾讯云企业账号：
