@@ -225,3 +225,10 @@ saip 目前王阳维护
   4，大模型的训练与部署
     https://alidocs.dingtalk.com/i/nodes/OG9lyrgJPLe06Yj3Hz77dQLnJzN67Mw4
 
+
+
+天敏 且随风 阿加西
+天敏软件差点
+阿加西专门做高通
+
+

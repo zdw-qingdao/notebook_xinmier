@@ -351,8 +351,6 @@ block前端支持，怎么通过后端完全自定义，解耦前端的逐个适
 
   它复用 test3 已生成的 yolo11n.engine，配置为 batch=4。运行时传入恰好 4 路视频：
 
-
-
 在 autopipe_docker_24_2 docker内，怎么执行这个测试：
 /home/zhongdawei/code/autopipe2/autopipe/tools/deepstream_test2/multistream_yolo.py
 测试指令是什么
@@ -373,4 +371,65 @@ cd /opt/autopipe/project/tools/deepstream_test2 && CUDA_VISIBLE_DEVICES=0  pytho
 1，worlflow需要适配：yolo crop人，图片resize，使用大模型进行推理；
 
 1, docker可以正常启动，运行网站和deepstream
+
+1，workflow 设计整合；
+
+1，明确batch处理方式: 通过engine来调度，遇到flow control，将batch拆分，batch输入始终带有index信息，查分后的batch依然有所有信息；
+  后续如果需要合并，也通过index合并，整个的执行还是通过engine来调度，不支持batch的情况就循环调用run，engine来组合batch
+
+多路视频流的情况下，对于flow control的情况，怎么设计比较好，
+1，workflow执行引擎处理batch的输入输出，在遇到flow controlblock后，分出两路或多路batch，继续执行后面的内容；
+最后输出如果到一个节点，再拼成一个batch；
+2，循环处理每个视频流的情况，每次拿deepstream结果先把全部的都取出来，然后只拿自己的，循环第二个视频流就可以直接拿自己的了；
+还有哪些推荐的方案，建议使用什么方案
+
+
+8，视频流拉取显示
+7，workflow模板后端支持；
+6，训练结果展示优化；
+5，标注快捷键
+4，离线自动标注
+3，在线自动标注
+2，workflow优化
+  多路视频流支持
+  deepstream自动构建；
+1，任务调度
+
+
+2，linli
+  部署页面
+  新建工作流 -> 选择workflow，执行工作流名称
+  输入添加：添加一组输入，如果是Image，那么选择相机，如果是其他的，手动输入；
+  可以添加多组输入；
+  按钮：运行 停止 预览； 删除输入；删除工作流；
+  写入数据库，后端重启信息还在；
+  运行，停止，预览函数先空着，不实现；
+
+wangyang：
+  1，相机预览页面；指定布局方式；
+  2，故障诊断；
+
+1，zejin;
+  有常态化部署后，quchen测试+使用文档；
+
+1，denghao python可以运行推理，测试视频流获取并进行推理；
+  完成后测试workflow的执行引擎；
+
+
+7，huzejin代码合入； 
+  3，| status | TEXT DEFAULT 'queued' | 状态：queued / running / completed / failed / succeeded / cancelled |
+    huzejin 会调整
+
+    auto_label_jobs
+    | status | TEXT DEFAULT 'queued' | queued / running / succeeded / failed / cancelled |
+      progress
+    jsonB存了一些进展信息
+
+  1, uv.lock ppyproject.toml的修改 原因；
+    本地使用，不影响；
+
+  0，mark_stale_auto_label_jobs_failed 中断的任务标记为失败；
+
+quchen：说明书
+
 
