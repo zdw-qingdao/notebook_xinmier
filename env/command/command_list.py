@@ -76,6 +76,8 @@ nohup mihomo -d ~/.config/mihomo > ~/.config/mihomo/mihomo.log 2>&1 &
 
 https://services.cu-te.cn/link?token=26b374511d3c6f8f254f020f860fdad7
 
+alias qwe="python3 /Users/air/Documents/notebook_xinmier/env/command/commands.py"
+
 '''
 
 

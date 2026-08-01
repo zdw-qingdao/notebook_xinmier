@@ -18,7 +18,6 @@ all shortcut:
   software:
     1, tmux
 
-
 mac setup
 
   system setup and tools: Rectangle pro, alttab, Hammerspoon
