@@ -162,3 +162,22 @@ mihomo -d ~/.config/mihomo -t && nohup mihomo -d ~/.config/mihomo > /tmp/mihomo.
 - **Web 管理面板**：搭配 `metacubexd` / `yacd` 面板（连 `127.0.0.1:9090`）可视化切换节点、看延迟和流量。
 
 需要这两项时再单独配置。
+
+
+
+1，下载安装mihomo
+2，创建文件
+  mkdir -p ~/.config/mihomo/config.yaml
+  将连接内容下载到指定文件
+  https://api.wd-blue.com/sub?target=clash&emoji=true&udp=true&scv=true&new_name=true&filename=WestData.yaml&url=https%3A%2F%2Fwd-blue.com%2Fsubscribe%2Fbvkyqr-tep5ipou-FqQnZx3bsffg
+3，验证：
+  mihomo -d ~/.config/mihomo -t
+
+4，运行
+  mihomo -d ~/.config/mihomo
+
+5，指定使用美国节点，否则codex不能正常登录； 
+
+
+
+

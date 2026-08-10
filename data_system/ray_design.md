@@ -112,8 +112,19 @@ decide this first:
   4，不同的人调用常驻任务，建立不同的actor任务即可，后续有需要再考虑复用的情况；复用的时候也可以在这个任务的run方法内服用，不一定需要走redis通道之类的；
 
 
+原版任务调度是在 /home/zhongdawei/code/autopipe/backend/task_manager
+新版任务调度是在 /home/zhongdawei/code/autopipe/backend/task_manager_3
+代码中原来用到 task_manager 的部分要迁移到 task_manager_3
+在 /home/zhongdawei/code/autopipe/doc/design_doc/task_design/v3/task_migrate.md 文档中写了代码中哪里用到了 task_manager，再判断下有没有遗漏；如果有遗漏的话补充到文档中；
+在 /home/zhongdawei/code/autopipe/doc/design_doc/task_design/v3/task_migrate_to_tm3.md 中写代码迁移的具体设计；完成之后先让我review；
+在 /home/zhongdawei/code/autopipe/backend/task_manager_3/adapter 中进行所有的task的封装；
+先不考虑workflow的部分；
+本来有训练任务表，自动标注表，迁移到task_manager_3后只使用任务表，不再使用训练任务表和自动标注表；
+有不明白的问题要问我，我review完成后一部分一部分的进行代码迁移的操作，每完成一部分，可以的话进行测试，在autopipe_docker_24_0:zdw_24_0 docker中测试，测试通过后让我来review实现；review这一部分完成后再进行下一部分的迁移，最终完成所有迁移；
 
+1，resume的部分
+  1，如果resume，那么任务名称加个resume
+  2，修为为沿用老的任务记录的方式，这样前端一次训练也不会因为resume而显示多条；先说修改逻辑，我review之后再进行实现；
 
-
-
+灵活支持外接算力盒子，支持热插拔，系统不需要重启，可以获取到新增的算力；
 

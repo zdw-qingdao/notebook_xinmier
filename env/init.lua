@@ -107,6 +107,7 @@
 
 
 -- ========== 右 Cmd + . / , 切换显示器 ==========
+-- 不依赖 LeftRightHotkey Spoon；用 eventtap 识别右 Cmd
 
 local function get_frontmost_window_on_screen(target_screen)
     local windows = hs.window.orderedWindows()
@@ -131,18 +132,33 @@ local function move_and_focus(target_screen)
     end
 end
 
--- 使用 LeftRightHotkey Spoon 区分左右 Cmd
-hs.loadSpoon("LeftRightHotkey")
+local rawFlagMasks = hs.eventtap.event.rawFlagMasks
+local keycodes = hs.keycodes.map
 
-spoon.LeftRightHotkey:bind({"rCmd"}, ".", function()
-    move_and_focus(hs.mouse.getCurrentScreen():next())
+local function isRightCmdOnly(flags)
+    local raw = flags or 0
+    local rCmd = (raw & rawFlagMasks.deviceRightCommand) > 0
+    local lCmd = (raw & rawFlagMasks.deviceLeftCommand) > 0
+    return rCmd and not lCmd
+end
+
+local rCmdScreenTap = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(e)
+    local raw = e:getRawEventData().CGEventData.flags
+    if not isRightCmdOnly(raw) then
+        return false
+    end
+
+    local code = e:getKeyCode()
+    if code == keycodes["."] then
+        move_and_focus(hs.mouse.getCurrentScreen():next())
+        return true
+    elseif code == keycodes[","] then
+        move_and_focus(hs.mouse.getCurrentScreen():previous())
+        return true
+    end
+    return false
 end)
-
-spoon.LeftRightHotkey:bind({"rCmd"}, ",", function()
-    move_and_focus(hs.mouse.getCurrentScreen():previous())
-end)
-
-spoon.LeftRightHotkey:start()
+rCmdScreenTap:start()
 
 
 -- -- ========== Alt+Tab 窗口切换（当前空间，所有显示器）==========
@@ -196,4 +212,3 @@ spoon.LeftRightHotkey:start()
 --     startSwitcherNav()
 --     switcher:previous()
 -- end)
-

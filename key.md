@@ -93,5 +93,8 @@ mihomo -d ~/.config/mihomo
 | asd | `rtsp://admin:fire_803@192.168.20.173/Streaming/Channels/301` |
 | dd | `rtsp://admin:fire_803@192.168.20.173/Streaming/Channels/401` |
 
-
 curl http://127.0.0.1:9090/proxies
+
+
+
+

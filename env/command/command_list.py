@@ -22,6 +22,21 @@ short_list.append(['629'])
 command_list.append("ssh zhongdawei@122.225.62.9")
 desp_list.append("622")
 
+short_list.append(['baiduroot'])
+command_list.append("ssh root@120.48.26.246")
+desp_list.append("baiduroot")
+
+short_list.append(['baidua'])
+command_list.append("ssh autopipe@120.48.26.246")
+desp_list.append("baidua")
+
+short_list.append(['baidu'])
+command_list.append("ssh zhongdawei@120.48.26.246")
+desp_list.append("baidu")
+
+# root: simmir123qwe!@#
+# autopipe：autopipe123qweASD
+
 short_list.append(['628'])
 command_list.append("ssh zhongdawei@122.225.62.8")
 desp_list.append("628")
@@ -77,6 +92,32 @@ nohup mihomo -d ~/.config/mihomo > ~/.config/mihomo/mihomo.log 2>&1 &
 https://services.cu-te.cn/link?token=26b374511d3c6f8f254f020f860fdad7
 
 alias qwe="python3 /Users/air/Documents/notebook_xinmier/env/command/commands.py"
+
+
+创建新用户:
+adduser username
+
+赋予管理员权限
+usermod -aG sudo username
+
+禁止密码登录
+passwd -l username
+
+删除用户，连带目录
+deluser --remove-home username
+
+# 切换到新用户
+su - work
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+# 写入你的id_rsa.pub公钥
+echo "ssh-rsa AAA......" > ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+chown -R work:work ~/.ssh
+
+用户加入docker组
+usermod -aG docker username
+
 
 '''
 
