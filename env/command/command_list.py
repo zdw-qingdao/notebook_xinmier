@@ -11,27 +11,27 @@ command_list.append("spec_backupvscode")
 desp_list.append("backup vscode settings.json and keybindings.json")
 
 short_list.append(['622'])
-command_list.append("ssh zhongdawei@122.225.62.2")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 zhongdawei@122.225.62.2")
 desp_list.append("622")
 
 short_list.append(['622w'])
-command_list.append("ssh wangyang@122.225.62.2")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 wangyang@122.225.62.2")
 desp_list.append("622w")
 
 short_list.append(['629'])
-command_list.append("ssh zhongdawei@122.225.62.9")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 zhongdawei@122.225.62.9")
 desp_list.append("622")
 
 short_list.append(['baiduroot'])
-command_list.append("ssh root@120.48.26.246")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 root@120.48.26.246")
 desp_list.append("baiduroot")
 
 short_list.append(['baidua'])
-command_list.append("ssh autopipe@120.48.26.246")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 autopipe@120.48.26.246")
 desp_list.append("baidua")
 
 short_list.append(['baidu'])
-command_list.append("ssh zhongdawei@120.48.26.246")
+command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 zhongdawei@120.48.26.246")
 desp_list.append("baidu")
 
 # root: simmir123qwe!@#
