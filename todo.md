@@ -70,18 +70,16 @@ baoxiao issue；
 
 ------------------
 
-zejin:
-  3，9月1号前，郑州使用：
-    1, 收费方式 credit 开发；
-    2，离线部署；license；
+1，监督功能，自动收集数据；
 
-wangyang:
+0，wangyang:
   1, 离线saip的数据上传2.0平台；模型和权重；
+  导出数据的上传；加到任务表中；
 
-haiyang:
-  1，推理的部分显示不正常；
 
-2，haiyang cl review;
+3，推理引擎的部分
+
+2，haowei 代码合入；
 
 
 

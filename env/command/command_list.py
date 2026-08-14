@@ -34,6 +34,9 @@ short_list.append(['baidu'])
 command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 zhongdawei@120.48.26.246")
 desp_list.append("baidu")
 
+# 123qwe!@#
+
+
 # root: simmir123qwe!@#
 # autopipe：autopipe123qweASD
 
