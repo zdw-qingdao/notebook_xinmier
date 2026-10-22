@@ -80,60 +80,98 @@ engine的执行在 /home/zhongdawei/code/autopipe/backend/task_manager_3/adapter
 
 先在 /home/zhongdawei/code/autopipe/doc/design_doc/workflow/v6/workflow_manager.md 中写设计文档，有不明白的问题问我，我review之后再进行实现与测试
 
-# --------- 6 推理引擎
+# --------- 6 模型推理block
 
-在 /home/zhongdawei/code/autopipe/backend/workflow6/inference_engine 中实现推理引擎的部分
-调用接口参考 @doc/design_doc/workflow/v6/design.md:277-296 
+autopipe/backend/workflow6/block_library/models 下删除原来的yolo_person_detection.py，模型block使用的需要是模型表中的某个模型；
+创建一个 yolo_detection.py，实现一个 yolo_detection 的block；
+block需要的参数：
+  1，执行引擎设置；
+  2，模型表中的id；
+block的输入是image
+block的输出是 ObjectDetection
+在模型表中创建一个测试用的模型，进行测试并保证测试通过；使用包含yolo_detection推理的block进行workflow的整体测试并保证测试通过；测试完成后清理数据库中的测试数据；
+如果有执行问题，记录到文档autopipe/doc/design_doc/workflow/v6/issue.md中说明原因和解决方法
 
-在 /home/zhongdawei/code/autopipe/backend/workflow6/block_library/models/yolo_person_detection.py 中设置这个block可以选择 inference_engine 或 workflow_engine, 如果是 inference_engine，在这个block的 setup_deepstream 中包含设置 deepstream 推理需要的内容；
+# --------- 7 模型转换
 
-在 setup_inference_block 中通过任务调度启动 inference_engine；同步要写推理batch表；
-目前先不进行batch的合并，只对输入的batch中可以合并的合并；不修改已经运行的部分；
+对数据转换中心进行调整：
+1, 数据库中增加一个模型转换表，包含模型id，模型转换类型，包含 svap 950 等，模型转换参数，模型转换状态；模型转换结果文件夹路径；转换结束时间；
+2, 在模型页的模型转换中心点开后，选择一种要转换的模型后，下面有开始 停止 下载按钮，有状态显示：未开始 / 转换中 / 转换完成 / 转换失败
+3, 未开始状态不能点击停止按钮；转换中不能点击开始按钮；在转换完成的状态才可以点击下载按钮；
+4，点击开始后，可以退出这个页面，通过数据库来实现持久化；转换完成或失败要更新模型转换表；
+5，同一种转换类型不同的参数对应的是不同的转换任务；
+6, 增加对deepstream的支持，增加一项转换是trt转换，将这个模型页对应的best.pt，转换为deepstream运行推理需要的文件，需要的转换代码在 autopipe/backend/model/model_export 中新增一个文件；所有需要的参数都手动设置；
+7，对trt转换的任务，task分配gpu为0.1；其他类型的不变
+8，转换后的文件存放到 deployment/deepstream 下；deepstream下和之前其他的模型转换的文件夹命名相同；
 
-先在 /home/zhongdawei/code/autopipe/doc/design_doc/workflow/v6/inference_engine.md 中写设计文档，有不明白的问题问我，我review之后再进行分布的实现与测试；
+config.txt preprocess.txt 中可以怎么设置batch，设置的batch需要怎么对应，设置batch后输入只能按照指定batch吗？怎么指定范围batch？engine中是否有batch的指定
+
+# --------- 8 推理引擎
+
+在 autopipe/backend/workflow6/inference_engine 中实现推理引擎的部分，
+
+创建一个推理引擎的类，构造参数和 setup_inference_block 的参数相同，这个类根据输入的block类型和参数，完成deepstream graph的构建，根据视频流输入来指定输入，
+输出是指定的mqtt topic；
+
+在 autopipe/backend/workflow6/block_library/models/yolo_detection.py 中设置这个block可以选择 inference_engine 或 workflow_engine, 如果是 inference_engine，在这个block的 setup_deepstream 中包含设置 deepstream 推理以及输出需要的全部内容；deepstream需要的文件默认在模型文件夹下的 deployment/deepstream 文件夹下；
+
+原本 autopipe/backend/workflow6/workflow_manager/inference_setup.py 要放到 autopipe/backend/workflow6/inference_engine 中；
+
+setup_inference_block 增加一个参数，是否支持batch调整；默认是false；
+setup_inference_block首先要判断输入的block和指定的参数，对应的模型文件夹下，是否有 deepstream需要的文件；如果没有则不进行后续操作，返回error；
+
+setup_inference_block 获取输入后，如果不支持batch调整，将当前的输入作为一个batch加入到batch表，allow_batch_merge 是false，然后通过task启动 推理引擎；
+
+如果支持batch调整，首先获取batch表中所有相同的block_type 和 block_param 且 allow_batch_merge 是true的行；假设有n行
+每个batch输入最多支持m组，m是指定阈值；
+
+首先判断是否要合batch：
+  如果 n*m 大于n行batch中输入instance的数量+当前输入的instance的数量，那么执行合batch的操作；
+  否则不执行合batch的操作；
+如果不执行合batch：
+  当前的输入作为一个单独的batch，通过task启动推理引擎；
+如果执行合batch：
+  将当前的输入合入到已有的batch中；如果能够不拆分合入，优先不拆分的方式合入，否则拆分合入到不同的batch中；
+  如果某部分要合入到一个已有的batch，首先要停止这个batch的task，然后合并输入后通过task启动推理引擎；更新batch表；
+
+先在 autopipe/doc/design_doc/workflow/v6/inference_engine.md 中写完善的设计文档，有不明白的问题问我，我review之后进行分步的实现与测试；
+测试要包含各种可能的情况，创建一个模型和需要的deepstream文件来测试，测试完成后清理测试数据；
+
+需要增加workflow instance停止的设计，
+在workflow manager 中增加workflow停止的函数，该函数的输入是需要停止的workflow instance id 的list，函数中首先更新workflow实例表；
+调用推理引擎的停止函数，输入同样是需要停止的workflow instance id 的list，这个函数中函数中关闭所有推理引擎相关的内容，batch表要同步更新，batch任务进行相应调整；
+调用workflow执行引擎的停止函数，输入同样是需要停止的workflow instance id 的list，函数中关闭所有workflow执行引擎部分的内容，workflow实例表要更新；
+
+@backend/model/model_export/model_packages.py:467-468 这里应该是自己编译得到的so文件，
+在导出deepstream的时候要同时编译保存so文件，保存在生成的文件夹中，config文件中设置对应的路径
+然后使用需要的so文件来进行prase，在yolo block中获取prase后的变量来转换成mqtt的topic；
+要验证导出deepstream结果的时候so文件可以正常生成，运行推理后yolo block中可以正常获取prase后的变量并进行mqtt的topic输出
 
 
-# --------- 7 启动器中 setup_inference_block 的部分完成；
+# --------- 9 启动器中 setup_camera_block
+
+# --------- 10 block和前端联动的方式；
+
+5，使用哪个deepstream的导出结果，目前是默认使用随机的一个文件夹；应该修改为根据数据库读取最新导出的；
+  2，后续所有的部署都在一个edgeflow上，可以执行在其他部署edgeflow的设备上运行某些部分；
+    那么需要支持一个workflow的输出是另一个workflow的输入；
+    推理的部分要自动处理合batch的情况；
+  3，使用现在的方式，workflow的输出可以作为其他workflow的输入；
+    workflow的输出可以作为其他workflow的输入；
+  在其他设备上执行相当于workflow的执行，推理batch自动处理；始终是8路的batch；
 
 
-# --------- 8 模型推理block，完成的定义，和前端联动的方式；
+1，workflow的输出可以作为其他workflow的输入；
+  这样一个workflow可以运行在不同的设备上；
+  在这种情况下，怎么给workflow指定输入；同样的方式指定输入，可以是一路或多路输入；
+  没必要：
+    单独实现svap部署的栏，先临时取代svap部分；这阶段是svap+designer；
+    svap有分流的功能，如果一个相机在不同的工位用到了，要提供分流的功能；
+2，录像 拍照的支持；
 
-5，前后端联合测试；
-4，所有暴露给前端的接口
+3，gpu资源分配的问题；可以指定对某个block分配的gpu资源是多少，几个batch，每个batch的gpu数量是多少；
 
-3，相机推理部署实现；
-2，模型推理测试block实现，支持推理引擎； 推理引擎实现；
-1，starter进行主模块的实现和对workflow执行引擎的调用；
-
-2，如果对应到输入，那么不需要pub；
-
-7，单帧的情况下，可视化怎么实现；
-  同样通过mqtt topic的方式，获取一帧的输出；
-
-6，实现推理引擎的部分；
-
-go through the manager parts;
-
-1，相机引擎不知道要pub的topic是什么，在这里是否传入要pub的topic，还是单独解析；
-  setup_camera_block
-  setup_inference_block 函数
-
-  按照现有的方法还有没有必要写mqtt topic的表？有，前端需要通过这个表来获取相关信息；
-
-6，推理block，默认都是一个gpu？gpu分配的问题；动态调整batch的问题；
-
-5，可视化的适配
-
-4，前端的适配；
-
-2，相机部分的定义；需要相机端进行适配；这部分进行适配；
-
-1，推理引擎的实现，结合模型推理block的补充，设置为deepstream引擎；再进行测试；
-
-0，模型推理block的实现，设置为普通引擎，先进行整套系统的测试；
-  1，先不指定输入参数，load固定路径的模型；
-  2，通过数据库索引载入指定模型；需要先有训练好的模型，传入的是模型表的id；
-    前端block需要进行适配；
+4，全局部署的跨机面板，可以编辑所有的部署面板；可以支持跨机的启动和关闭；
 
 
 

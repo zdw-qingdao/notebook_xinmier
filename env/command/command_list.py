@@ -34,11 +34,6 @@ short_list.append(['baidu'])
 command_list.append("ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=6 zhongdawei@120.48.26.246")
 desp_list.append("baidu")
 
-# 123qwe!@#
-
-
-# root: simmir123qwe!@#
-# autopipe：autopipe123qweASD
 
 short_list.append(['628'])
 command_list.append("ssh zhongdawei@122.225.62.8")
@@ -57,9 +52,20 @@ command_list.append("sshfs admin1@122.225.62.9:/mnt/data1/ /Users/abc/Documents/
 desp_list.append("629mount")
 
 short_list.append(['local'])
-command_list.append("ssh ubuntu@192.168.31.100")
+command_list.append("ssh simmir1@192.168.10.113")
 desp_list.append("local")
 
+short_list.append(['local_proxy'])
+command_list.append("ssh -p 31107 simmir1@122.225.62.9")
+desp_list.append("local_proxy")
+
+short_list.append(['960'])
+command_list.append("ssh root@192.168.10.126")
+desp_list.append("960")
+
+# http://192.168.10.151:58200/login
+# ssh root@192.168.10.151
+# P@ssw0rd
 
 
 '''

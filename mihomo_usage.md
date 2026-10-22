@@ -41,7 +41,11 @@ curl -sL -A "mihomo/1.18.0" \
 好用：
 curl -sL -A "mihomo/1.18.0" \
   'https://api.wd-blue.com/sub?target=clash&emoji=true&udp=true&scv=true&new_name=true&filename=WestData.yaml&url=https%3A%2F%2Fwd-blue.com%2Fsubscribe%2Fbvkyqr-tep5ipou-FqQnZx3bsffg' \
-  -o ~/.config/mihomo/config_2.yaml
+  -o ~/.config/mihomo/config.yaml
+
+
+
+
 
 ```
 
@@ -164,7 +168,6 @@ mihomo -d ~/.config/mihomo -t && nohup mihomo -d ~/.config/mihomo > /tmp/mihomo.
 需要这两项时再单独配置。
 
 
-
 1，下载安装mihomo
 2，创建文件
   mkdir -p ~/.config/mihomo/config.yaml
@@ -177,6 +180,83 @@ mihomo -d ~/.config/mihomo -t && nohup mihomo -d ~/.config/mihomo > /tmp/mihomo.
   mihomo -d ~/.config/mihomo
 
 5，指定使用美国节点，否则codex不能正常登录； 
+
+
+------------------------------------------- docker临时使用代理的方法：
+
+sudo SYSTEMD_EDITOR=vim systemctl edit --runtime docker
+写入：
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+Environment="NO_PROXY=localhost,127.0.0.1,::1"
+重启
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+sudo mkdir -p /run/systemd/system/docker.service.d && printf '%s\n' '[Service]' 'Environment="HTTP_PROXY=http://127.0.0.1:7890"' 'Environment="HTTPS_PROXY=http://127.0.0.1:7890"' 'Environment="NO_PROXY=localhost,127.0.0.1,::1"' | sudo tee /run/systemd/system/docker.service.d/proxy.conf >/dev/null && sudo systemctl daemon-reload && sudo systemctl restart docker && sudo systemctl show docker --property=Environment
+
+撤销代理：
+sudo rm -f /run/systemd/system/docker.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+切换proxy的方法
+ssh -L 19090:127.0.0.1:19090 zhongdawei@122.225.62.9
+https://yacd.haishan.me/#/proxies
+
+cd /tmp
+curl -LO https://github.com/fatedier/frp/releases/download/v0.71.0/frp_0.71.0_linux_amd64.tar.gz
+tar -xzf frp_0.71.0_linux_amd64.tar.gz
+cd frp_0.71.0_linux_amd64
+
+client: nohup./frpc -c frpc.toml   >/dev/null 2>&1 &
+server: nohup./frps -c frps.toml   >/dev/null 2>&1 &
+
+
+frps.toml 
+  bindPort = 7000
+  auth.method = "token"
+  auth.token = "simmir123qwe!@#"
+
+frpc.toml 
+  serverAddr = "122.225.62.9"
+  serverPort = 7000
+  auth.method = "token"
+  auth.token = "simmir123qwe!@#"
+
+  [[proxies]]
+  name = "ssh-simmir1-31107"
+  type = "tcp"
+  localIP = "127.0.0.1"
+  localPort = 22
+  remotePort = 31107
+
+  [[proxies]]
+  name = "tcp-simmir1-31108"
+  type = "tcp"
+  localIP = "127.0.0.1"
+  localPort = 11705
+  remotePort = 31108
+
+
+ssh zhongdawei@122.225.62.9
+密码：4195350zdwLJN-
+
+
+ssh zhongdawei@120.48.26.246
+密码：4195350zdwLJN-
+重启这台设备上的 mihomo 服务
+验证方式：curl -s -x http://127.0.0.1:17890 -o /dev/null -w "HTTP %{http_code}\n" https://www.google.com
+
+
+
+ssh simmir1@192.168.10.113
+密码：fire_803
+重启这台设备上的 mihomo 服务
+验证方式：curl -s -x http://127.0.0.1:17890 -o /dev/null -w "HTTP %{http_code}\n" https://www.google.com
+
+
 
 
 

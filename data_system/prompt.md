@@ -376,3 +376,35 @@ json文件中包含 image_tag 的列表，其中是一个或多个 image_tag
 左侧的代码栏 模型结果栏 终端栏 资源监控 评测栏是不可见的，其中任务栏中，没有新建推理任务和新建数据处理任务，只有新建训练任务，在任务显示中只有训练任务和入库任务，没有推理任务和数据处理任务；
 另外数据采集栏中项目的删除操作是不可选的；
 
+/home/simmir1/zdw/code/autopipe/doc/design_doc/stack_issue/issue.md 中记录了两个卡主的问题的原因和解决方法，这是在出现了问题后发现的，系统中可能还有其他没有触发的问题。要详细检查整个系统，检查还有哪里会出现卡出的问题；尤其关注文件扫描和数据库连接池上，并给出建议的解决方法
+写设计文档，按照这些问题的优先级，严重程度，分阶段解决，有不明白的问题问我，我review之后进行分阶段的修复
+
+
+
+
+codex/13706-development-batches 分支历史有一些huangxueying的修改，这些修改内容要加到development分支；
+进行下面的操作：
+1，
+5a71e88f fix(ui): align overlays, selects, page themes and admin return navigation
+7522a775 feat(navigation): unify selected states and contextual location cues
+78ac4204 fix(theme): align media states and page typography with semantic tokens
+3947ac20 feat(overview): refresh workspace overview and navigation interactions
+06f32ec1 fix(dashboard): restrict access to system administrators
+d3b49929 refactor(overview): remove creation actions and hardware section
+ea4e1ef5 style(account): use neutral avatar in both themes
+a58eb7a5 style(theme): improve dark text and icon contrast
+575bd094 fix(loading): restore development startup spinner
+5cfe8ff9 style(pages): apply shared presentation to workspace and project pages
+4f5e3480 refactor(navigation): align workspace and account entry points
+04851b16 feat(ui): add shared theme, startup and presentation components
+将这些commit内容合为一个commit，加入到development后面，
+2，
+1be25782 (origin/codex/13706-development-batches, codex/13706-development-batches) feat(ui): unify reviewed tables and improve workspace navigation loading
+959ea77f fix(theme): map device page and media states to semantic tokens
+f3dc16ad feat(ui): align fee pages, breadcrumbs and sidebar interactions
+9e50e051 fix(tasks): remove stale scanner reference from task panel
+c11369d2 fix(integration): adapt UI navigation and tests to latest development
+84c19e94 fix(integration): preserve development device navigation and lazy camera dialog
+将这些commit内容合为一个commit，加入到后面；
+
+保证新增的两个commit所有的修改是正确的，和之前的修改达到同样的功能；因为基于的原始分支不一样，代码可能需要调整；要保证实现同样的功能性，保证使用正常；

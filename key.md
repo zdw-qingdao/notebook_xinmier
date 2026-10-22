@@ -1,6 +1,12 @@
 
 yixuanxumxhaiyux
 
+公司名称：辛米尔科技（上海）有限公司
+税号：91310112MA1GCCT73P
+开户行：中国银行股份有限公司上海市江川路支行
+银行账号：444277201368
+地址：上海市杨浦区邯郸路10号5号楼102B室
+电话：13816286800
 
 zenmux zdw account:
   claude 
@@ -95,6 +101,29 @@ mihomo -d ~/.config/mihomo
 
 curl http://127.0.0.1:9090/proxies
 
+
+不同型号的相机 ar950/940 d950/940 
+
+AR960用的是QCS6490，AR961用的是QCS8550，D970用的是IQ8
+
+权限设置：
+  # 进入家目录的通行权限
+  setfacl -m u:admin1:r-x /home/zhongdawei
+  # 进入 code 目录的通行权限
+  setfacl -m u:admin1:r-x /home/zhongdawei/code
+  # 进入 autopipe 目录的通行权限
+  setfacl -m u:admin1:r-x /home/zhongdawei/code/autopipe
+
+  setfacl -R -m u:admin1:rwx /home/zhongdawei/code/autopipe/toturial
+
+bitbucket管理员账号：
+  software-admin@simmir-visiontech.com
+  mbw.nax9HTA0hpq4dwr
+
+邮箱登录：
+  https://mail.qiye.163.com/static/login/
+  software-admin@simmir-visiontech.com
+  `Gd2CRDa$2MZQw2k
 
 
 
