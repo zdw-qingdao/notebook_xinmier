@@ -61,8 +61,11 @@ autopipe123qweASD
 启动位置 /cfs/users/autopipe/code/autopipe 下的docker_run.sh
 现在访问 http://120.48.26.246:10700 然后进行操作非常卡，原因是什么，是哪里卡主了，有什么解决方法
 
-
-
+当前的edgeflow系统部署的服务器地址和密码是：
+autopipe@120.48.26.246
+autopipe123qweASD
+代码部署的路径是 /cfs/users/autopipe/code/main
+为什么这个任务一直处在调度中的状态？
 
 
 

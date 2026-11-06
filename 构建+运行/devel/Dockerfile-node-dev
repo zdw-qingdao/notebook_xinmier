@@ -1,0 +1,11 @@
+FROM node:22
+
+RUN corepack enable && corepack prepare pnpm@10.14.0 --activate
+
+ENV SVAP_DEV=/opt/svap-dev
+COPY container/ ${SVAP_DEV}/
+RUN chmod +x ${SVAP_DEV}/install-svap-designer.sh ${SVAP_DEV}/start-svap-designer.sh \
+    && ln -sf ${SVAP_DEV}/install-svap-designer.sh /usr/local/bin/install-svap-designer \
+    && ln -sf ${SVAP_DEV}/start-svap-designer.sh /usr/local/bin/start-svap-designer
+
+WORKDIR /project

@@ -1,0 +1,19 @@
+services:
+  nodejs-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile-node-dev
+    image: svap-nodejs-devel:local
+    container_name: svap-nodejs-devel
+    command: ["sleep", "infinity"]
+    volumes:
+      - "../:/project"
+      - "/media/hdd:/media/hdd"
+      - "/media/hdd/data:/data"
+      - "/media/hdd/data/svap-designer/dev-plugin-packages.txt:/opt/svap-dev/dev-plugin-packages.txt"
+      - "/media/hdd/data/svap-designer/dev-userDir-package.json:/opt/svap-dev/dev-userDir-package.json"
+    working_dir: "/project"
+    network_mode: "host"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped

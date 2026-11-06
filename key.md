@@ -125,5 +125,12 @@ bitbucket管理员账号：
   software-admin@simmir-visiontech.com
   `Gd2CRDa$2MZQw2k
 
-
+启动designer:
+cd devel && docker compose build nodejs-dev
+sudo mkdir -p /media/hdd/data/svap-designer
+cd .. && sudo cp devel/container/dev-plugin-packages.txt devel/container/dev-userDir-package.json /media/hdd/data/svap-designer/
+cd devel && docker compose up -d nodejs-dev
+docker exec -it svap-nodejs-devel bash
+install-svap-designer 
+start-svap-designer
 
